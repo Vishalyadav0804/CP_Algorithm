@@ -1,1 +1,112 @@
 
+Arrange elements in a Linked List such that all even numbers are placed after odd numbers.
+
+Input Format
+Enter N space separated Elements
+
+Constraints
+None
+
+Output Format
+Linked list with all the odd numbers before even numbers
+
+Sample Input
+5
+1 2 2 2 1
+Sample Output
+1 1 2 2 2
+
+Program-
+
+#include<iostream>
+using namespace std;
+class Node{
+    public:
+    int data;
+    Node *next;
+    Node(int d)
+    {
+        data=d;
+        next=NULL;
+    }
+};
+void insertAtEnd(Node *&head,int num)
+{
+    if(head==NULL)
+    {
+        head=new Node(num);
+        return;
+    }
+    Node *tail=head;
+    while(tail->next!=NULL)
+        tail=tail->next;
+    Node *n=new Node(num);
+    tail->next=n;
+    return;
+}
+Node *oddeven(Node *&head){
+	Node *odd_start=NULL;
+	Node *even_start=NULL;
+	Node *odd_end=NULL;
+	Node *even_end=NULL;
+	Node *temp=head;
+	if(temp==NULL){
+		return head;
+	}
+	while(temp){
+		int val=temp->data;
+
+		if((val%2)!=0){
+			if(odd_end==NULL){
+				odd_start=temp;
+				odd_end=odd_start;
+			}
+			else{
+				odd_end->next=temp;
+				odd_end=odd_end->next;
+			}
+		}
+		else if((val%2)==0){
+			if(even_end==NULL){
+				even_start=temp;
+				even_end=even_start;
+			}
+			else{
+				even_end->next=temp;
+				even_end=even_end->next;
+			}
+		}
+        temp=temp->next;                           //you missed this line
+	}
+    if(odd_end==NULL){                             // CORNER CASE : WHEN ALL ELEMENTS ARE EVEN
+        return even_start;
+    }
+	odd_end->next=even_start;                      // replaced odd_start with odd_end	
+
+    if(even_end)                                  // CORNER CASE : WHEN ALL ELEMENTS ARE ODD      
+     even_end->next=NULL;
+	return odd_start;
+}
+void print(Node *head)
+{
+    Node *temp=head;
+    while(temp!=NULL)
+    {
+        cout<<temp->data<<" ";
+        temp=temp->next;
+    }
+}
+
+int main()
+{
+    int n;
+	cin>>n;
+	int num;
+	Node *head=NULL;
+	for(int i=0;i<n;i++){
+		cin>>num;
+		insertAtEnd(head,num);
+	}
+	Node *head1=oddeven(head);
+    print(head1);        
+}
