@@ -1,0 +1,22 @@
+
+Input a number linke 2048
+Output- two zero four eight
+
+
+
+#include <iostream>
+using namespace std;
+char word[][10]={"zero","one","two","three","four","five","six","seven","eight","nine"};
+void print(int n)
+{
+    if(n==0)
+        return;
+    print(n/10);
+    cout<<word[n%10]<<" ";
+}
+int main() 
+{
+    int n;
+    cin>>n;
+    print(n);
+}
